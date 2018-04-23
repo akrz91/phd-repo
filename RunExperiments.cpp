@@ -58,29 +58,29 @@ void writeLimitToFile (std::string fileName, int limit){
 
 void saveSampleToPowerFile (Rapl *raplPtr, std::ofstream &outfile){
 
-    outfile << raplPtr->pkg_current_power() << ","
-            << raplPtr->pp0_current_power() << ","
-            << raplPtr->pp1_current_power() << ","
-            << raplPtr->dram_current_power() << ","
+    outfile << raplPtr->pkg_current_power() << "\t"
+            << raplPtr->pp0_current_power() << "\t"
+            << raplPtr->pp1_current_power() << "\t"
+            << raplPtr->dram_current_power() << "\t"
             << raplPtr->total_time() << std::endl;
 }
 
 void saveRecordToAvResultFile (ResultsContainer &container, std::ofstream &outfile, int powerLimit){
 
-    outfile << powerLimit / 1000000 << "; \t\t" //convert uW to W
+    outfile << powerLimit / 1000000 << "\t\t" //convert uW to W
             << std::fixed << std::setprecision(4)
-            << container.energy << "; \t" 
-            << container.power << "; \t"
-            << container.time << "; " << std::endl;
+            << container.energy << "\t" 
+            << container.power << "\t"
+            << container.time << std::endl;
 }
 
 void saveRecordToResultFile (Rapl *raplPtr, std::ofstream &outfile, int powerLimit){
 
-    outfile << powerLimit / 1000000 << "; \t\t" //convert uW to W
+    outfile << powerLimit / 1000000 << "\t\t" //convert uW to W
             << std::fixed << std::setprecision(4)
-            << raplPtr->pkg_total_energy() << "; \t" 
-            << raplPtr->pkg_average_power() << "; \t"
-            << raplPtr->total_time() << "; " << std::endl;
+            << raplPtr->pkg_total_energy() << "\t" 
+            << raplPtr->pkg_average_power() << "\t"
+            << raplPtr->total_time() << std::endl;
 }
 
 int main (int argc, char *argv[]) {
@@ -119,8 +119,8 @@ int main (int argc, char *argv[]) {
     }
 
     // write header to result files
-    outResultFile << "limit P [W]\ttotal E [J]\tav. P [W]\ttotal t [s]\n";
-    outAvResultFile << "limit P [W]\ttotal E [J]\tav. P [W]\ttotal t [s]\n";
+    outResultFile << "#lim P [W]\ttotal E [J]\tav. P [W]\ttotal t [s]\n";
+    outAvResultFile << "#lim P [W]\ttotal E [J]\tav. P [W]\ttotal t [s]\n";
 
     for(auto currentLimit : powerLimitsVec){
 

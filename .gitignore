@@ -1,5 +1,5 @@
 *.o
-rapl.csv
+*.csv
 AppPowerMeter
 PowerMonitor
 RunExperiments
