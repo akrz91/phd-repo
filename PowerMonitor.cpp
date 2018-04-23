@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 	 *
 	 **/
 	char input_char;
-	while ((input_char = getopt(argc, argv, "p:o:")) != -1) {
+	while ((input_char = getopt(argc, argv, "p:o:t:")) != -1) {
 		switch (input_char) {
 		case 'p':
 			ms_pause = atoi(optarg);
