@@ -14,6 +14,7 @@
 #include "Rapl.h"
 
 #define RAPL_BASE_DIRECTORY "/sys/class/powercap/intel-rapl/intel-rapl:0/"
+#define RAPL_SECOND_BASE_DIRECTORY "/sys/class/powercap/intel-rapl/intel-rapl:1/"
 #define LONG_LIMIT "constraint_0_power_limit_uw"
 #define SHORT_LIMIT "constraint_1_power_limit_uw"
 #define LONG_WINDOW "constraint_0_time_window_us"
@@ -110,8 +111,17 @@ int main (int argc, char *argv[]) {
     std::string pl0dir = raplDir + LONG_LIMIT;
     std::string pl1dir = raplDir + SHORT_LIMIT;
 
+    // [1/4] UNCOMMENT IF 2 PROCESSORS AVAILABLE
+    // std::string raplDir2 = RAPL_SECOND_BASE_DIRECTORY;
+    // std::string pl0dir2 = raplDir2 + LONG_LIMIT;
+    // std::string pl1dir2 = raplDir2 + SHORT_LIMIT;
+
     int defaultPowerLimit0 = readLimitFromFile(pl0dir);
     int defaultPowerLimit1 = readLimitFromFile(pl1dir);
+
+    // [2/4] UNCOMMENT IF 2 PROCESSORS AVAILABLE
+    // int defaultPowerLimit0_2 = readLimitFromFile(pl0dir2);
+    // int defaultPowerLimit1_2 = readLimitFromFile(pl1dir2);
 
     std::vector<int> powerLimitsVec;
     for (int li = START_POWER_LIMIT; li >= STOP_POWER_LIMIT; li -= INCREMENT_POWER_LIMIT){
@@ -127,6 +137,9 @@ int main (int argc, char *argv[]) {
         std::cout << "Run for power limit " << currentLimit/1000000 << "W\n";
         writeLimitToFile (pl0dir, currentLimit);
         writeLimitToFile (pl1dir, currentLimit);
+        // [3/4] UNCOMMENT IF 2 PROCESSORS AVAILABLE
+        // writeLimitToFile (pl0dir2, currentLimit);
+        // writeLimitToFile (pl1dir2, currentLimit);
 
         ResultsContainer tmpResultsContainer { 0.0, 0.0, 0.0 };
 
@@ -188,6 +201,9 @@ int main (int argc, char *argv[]) {
     //restore default ilmits
     writeLimitToFile (pl0dir, defaultPowerLimit0);
     writeLimitToFile (pl1dir, defaultPowerLimit1);
+    // [4/4] UNCOMMENT IF 2 PROCESSORS AVAILABLE
+    // writeLimitToFile (pl0dir2, defaultPowerLimit0_2);
+    // writeLimitToFile (pl1dir2, defaultPowerLimit1_2);
     std::cout << "Default limits restored.\n";
 
     delete globalRaplPtr;
