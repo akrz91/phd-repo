@@ -1,18 +1,57 @@
-#if (!exists("filename")) filename='default.dat'
-set ytics
-set xtics
+set terminal png size 1750,750 enhanced font "Helvetica,22"
 
-set style function linespoints
-#
-# define line styles using explicit rgbcolor names
-#
-set style line 1  linecolor rgb "red"  linewidth 3.000 dashtype 2 pointtype 2 pointsize default pointinterval 0 
+length = strlen(filename)
+set output substr(filename, 1, length-4).".png"
+
+#set term x11
+
+#set terminal postscript portrait
+#set size 1.75,.75
+
+set style line 1  linecolor rgb "red"  linewidth 3.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
 set style line 2  linecolor rgb "blue"  linewidth 2.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
 set style line 3  linecolor rgb "black"  linewidth 3.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
 set style line 4  linecolor rgb "green"  linewidth 2.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
 
-plot filename using 1:2 ls 1, \
-     filename using 1:3 ls 2, \
-     filename using 1:4 ls 3
+#foo(x) = x
+set title "Core i7"
+set xlabel "Power Limit [W]"
+set ylabel ""
+set y2label ""
+set autoscale y
+set autoscale y2
+set y2tics
+set border lw 2
+#set xrange [0:300]
+#set yrange [0:50]
+set grid lw 2
 
-pause -1
+plot filename using 1:2 ls 1 title "Energy [J]" with linespoints axes x1y2, \
+     filename using 1:3 ls 2 title "av. Power [W]" with linespoints, \
+     filename using 1:4 ls 3 title "total time [s]"  with linespoints
+#pause -1
+
+#if (!exists("filename")) filename='default.dat'
+#set ytics
+#set xtics
+#replot
+#pause -1
+
+#set ytics
+#set xtics
+
+#set style function linespoints
+
+# define line styles using explicit rgbcolor names
+#
+#set style line 1  linecolor rgb "red"  linewidth 3.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
+#set style line 2  linecolor rgb "blue"  linewidth 2.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
+#set style line 3  linecolor rgb "black"  linewidth 3.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
+#set style line 4  linecolor rgb "green"  linewidth 2.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
+
+#plot filename using 1:2 ls 1, \
+#     filename using 1:3 ls 2, \
+#     filename using 1:4 ls 3
+#
+          pause -1
+#          
