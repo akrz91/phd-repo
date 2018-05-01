@@ -125,8 +125,17 @@ int main (int argc, char *argv[]) {
     for(auto currentLimit : powerLimitsVec){
 
         std::cout << "Run for power limit " << currentLimit/1000000 << "W\n";
+
         writeLimitToFile (pl0dir, currentLimit);
+        if (readLimitFromFile(pl0dir) != currentLimit) {
+            std::cerr << "Limit was not overwritten succesfully.\n"
+                      << "HINT: Check dmesg if it is not locked by BIOS.\n";
+        }
         writeLimitToFile (pl1dir, currentLimit);
+        if (readLimitFromFile(pl1dir) != currentLimit) {
+            std::cerr << "Limit was not overwritten succesfully.\n"
+                      << "HINT: Check dmesg if it is not locked by BIOS.\n";
+        }
 
         ResultsContainer tmpResultsContainer { 0.0, 0.0, 0.0 };
 
