@@ -1,4 +1,3 @@
 #!/bin/bash
-#FILE="filename=\'"
-#FILE
-gnuplot -e "filename='$1'" ./visualise_data.plg
+
+gnuplot -e "filename='$1'; plotTitle='$2'" ./visualise_data.plg

@@ -1,44 +1,50 @@
-set terminal png size 1750,1500 enhanced font "Helvetica,22"
+set terminal png size 800,1200 enhanced font "Helvetica,22"
+
+if (!exists("plotTitle")) plotTitle = "Desktop Core i7"
 
 length = strlen(filename)
 set output substr(filename, 1, length-4).".png"
 
-#set term x11
-
-#set terminal postscript portrait
-#set size 1.75,.75
-
-set style line 1  linecolor rgb "red"  linewidth 3.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
-set style line 2  linecolor rgb "blue"  linewidth 2.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
-set style line 3  linecolor rgb "black"  linewidth 3.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
-set style line 4  linecolor rgb "green"  linewidth 2.000 dashtype 2 pointtype 2 pointsize default pointinterval 0
+set style line 1  linecolor rgb "red"  linewidth 3.000 dashtype 2 pointtype 2 pointsize 2 pointinterval 0
+set style line 2  linecolor rgb "blue"  linewidth 2.000 dashtype 2 pointtype 9 pointsize 2 pointinterval 0
+set style line 3  linecolor rgb "black"  linewidth 3.000 dashtype 2 pointtype 15 pointsize 2 pointinterval 0
+set style line 4  linecolor rgb "green"  linewidth 2.000 dashtype 2 pointtype 21 pointsize 2 pointinterval 0
 
 foo(x) = x
 
 set border lw 2
-#set xrange [0:300]
+set xrange [22:]
 #set yrange [0:50]
 set grid lw 2
 
-set multiplot layout 2,1 rowsfirst
+set tmargin 1
+set bmargin 3.5
+set lmargin 8
+set rmargin 8
 
-set title "Core i7"
+set multiplot layout 2,1 title plotTitle font ",20"
+
+#set multiplot layout 2,1 rowsfirst
+
 set xlabel "Power Limit [W]"
-set ylabel "total time [s]"
-set y2label "Energy [J]"
+set ylabel "total time [s]" font ",20" offset 2,0
+set y2label "Energy [J]" offset -2,0
 set autoscale y
 set autoscale y2
-set ytics
-set y2tics
+set ytics font ",18"
+set y2tics font ",18"
+set xtics font ",18"
 
 plot filename using 1:2 ls 1 title "Energy [J]" with linespoints axes x1y2, \
      filename using 1:4 ls 2 title "total time [s]"  with linespoints
 
-set title "Core i7"
+unset y2tics
+unset y2label
+
+unset title
 set xlabel "Power Limit [W]"
-set ylabel "Power [W]"
+set ylabel "Power [W]" offset 3,0
 set autoscale y
-set ytics
 plot foo(x) ls 3 title "power limit" with linespoints, \
      filename using 1:3 ls 2 title "av. Power [W]" with linespoints
 unset multiplot
