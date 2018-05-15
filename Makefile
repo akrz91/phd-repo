@@ -2,13 +2,19 @@ CXX = g++
 CXXFLAGS = -std=c++11 -g
 LD = $(CXX)
 LDFLAGS = -lm -lrt
-MY_LDFLAGS = -lboost_filesystem -lboost_system
+#MY_LDFLAGS = -lboost_filesystem -lboost_system
 
-all : PowerMonitor AppPowerMeter RunExperiments
+all : PowerMonitor AppPowerMeter RunExperiments SetPowerLimits
 
-run : PowerMonitor AppPowerMeter RunExperiments
+run : PowerMonitor AppPowerMeter RunExperiments SetPowerLimits
 	#./PowerMonitor
 	./AppPowerMeter sleep 5
+
+SetPowerLimits : SetPowerLimits.o
+	$(LD) $(LDFLAGS) -o $@ $^
+
+SetPowerLimits.o : SetPowerLimits.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 RunExperiments : RunExperiments.o Rapl.o
 	$(LD) $(LDFLAGS) -o $@ $^ $(MY_LDFLAGS)
@@ -39,3 +45,4 @@ clean :
 	rm -f AppPowerMeter
 	rm -f PowerMonitor
 	rm -f RunExperiments
+	rm -f SetPowerLimits
